@@ -1,13 +1,16 @@
 import { enableScheduling, scheduled } from "../src";
+import Foo from './foo';
 
 describe('@enableScheduling >', () => {
   test('should enable scheduling for class', () => {
-    expect(enableScheduling()).toBe(1);
+    const foo = new Foo();
+    expect(foo).toBeInstanceOf(Foo);
+    expect(foo.bar()).toBe('hi');
   });
 });
 
 describe('@scheduled >', () => {
   test('should schedule function', () => {
-    expect(scheduled()).toBe(2);
+
   });
 });
