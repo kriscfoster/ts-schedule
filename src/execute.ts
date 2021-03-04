@@ -1,7 +1,26 @@
-import Scheduled from "./interfaces/scheduled";
+import Schedule from './interfaces/schedule';
 
-export default function execute(scheduled: Array<Scheduled>, target) {
-  // TODO: actually set the interval & do the execution
-  console.log(scheduled);
-  console.log(target);
+export default function execute(scheduled: Array<Schedule>, target) {
+  if (!Array.isArray(scheduled)) {
+    return;
+  }
+
+  scheduled.forEach((s: Schedule) => {
+    const fn = target[s.key];
+    if (s.initialDelay) {
+      setTimeout(() => {
+        fn.call(target);
+        createSchedule(target, s);
+      }, s.initialDelay);
+    } else {
+      createSchedule(target, s);
+    }
+  });
+}
+
+function createSchedule(target, scheduled: Schedule) {
+  const fn = target[scheduled.key];
+  setInterval(() => {
+    fn.call(target);
+  }, scheduled.fixedRate);
 }

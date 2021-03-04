@@ -1,0 +1,3 @@
+export function pause(time: number) {
+  return new Promise(resolve => setTimeout(resolve, 1000));
+}

@@ -1,16 +1,30 @@
 import 'reflect-metadata';
 import execute from './execute';
-import Scheduled from './interfaces/scheduled';
+import Schedule from './interfaces/schedule';
 
 const scheduledMetadataKey = Symbol('scheduled');
 
 export function enableScheduling() {
   return (target) => {
-    const staticScheduled = Reflect.getOwnMetadata(scheduledMetadataKey, target);
     const instanceScheduled = Reflect.getOwnMetadata(scheduledMetadataKey, target.prototype);
-    execute(staticScheduled, target);
-    execute(instanceScheduled, target);
+    const fn = (Function('f', `return function ${target.name}(){ return f.apply(this, arguments) }`))(function () {
+      target.apply(this, arguments);
+      execute(instanceScheduled, this);
+    });
+
+    Object.assign(fn, target)
+    fn.prototype = target.prototype;
+    copyMetadata(target, fn);
+    return fn;
   };
+}
+
+function copyMetadata(from, to): void {
+  const metadataKeys = Reflect.getMetadataKeys(from);
+  metadataKeys.forEach((metadataKey) => {
+    const metadata = Reflect.getOwnMetadata(metadataKey, from);
+    Reflect.defineMetadata(metadataKey, metadata, to);
+  });
 }
 
 export function scheduled(fixedRate: number, initialDelay: number = 0) {
@@ -19,8 +33,8 @@ export function scheduled(fixedRate: number, initialDelay: number = 0) {
       throw Error('@scheduled can only be applied to methods');
     }
 
-    const existingScheduled: Array<Scheduled> = Reflect.getOwnMetadata(scheduledMetadataKey, target) || [];
-    existingScheduled.push({ fixedRate, initialDelay });
+    const existingScheduled: Array<Schedule> = Reflect.getOwnMetadata(scheduledMetadataKey, target) || [];
+    existingScheduled.push({ key, fixedRate, initialDelay });
     Reflect.defineMetadata(scheduledMetadataKey, existingScheduled, target);
   };
 }

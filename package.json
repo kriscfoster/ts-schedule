@@ -2,11 +2,21 @@
   "name": "ts-schedule",
   "version": "1.0.0",
   "description": "Allows task scheduling functionality in TypeScript using decorators.",
-  "main": "./dist/index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest --detectOpenHandles --forceExit",
+    "prepare": "npm run build"
   },
+  "files": [
+    "lib/**/*",
+    "README.md"
+  ],
+  "keywords": [
+    "typescript",
+    "schedule",
+    "decorator"
+  ],
   "author": "Kris Foster",
   "license": "ISC",
   "devDependencies": {
@@ -14,7 +24,16 @@
     "jest": "^26.6.3",
     "reflect-metadata": "^0.1.13",
     "ts-jest": "^26.5.2",
+    "ts-node": "^9.1.1",
     "typescript": "^4.2.2"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kriscfoster/ts-schedule.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kriscfoster/ts-schedule/issues"
+  },
+  "homepage": "https://github.com/kriscfoster/ts-schedule"
 }
