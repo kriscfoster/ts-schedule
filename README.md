@@ -6,8 +6,20 @@
 
 Allows scheduling functionality in TypeScript using decorators.
 
+### Prerequisites
 `npm install ts-schedule`
 
+To use decorators in TypeScript, you will need to add the following to your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "experimentalDecorators": true
+  }
+}
+```
+
+### Usage
 ```ts
 @enableScheduling()
 class Foo {
@@ -25,8 +37,8 @@ class Foo {
 new Foo();
 ```
 
-Output
-```
+### Output
+```text
 bar1
 bar1
 bar1
