@@ -31,7 +31,6 @@
     "typescript": "^4.2.2"
   },
   "dependencies": {
-    "make-coverage-badge": "^1.2.0",
     "reflect-metadata": "^0.1.13"
   },
   "repository": {
