@@ -38,6 +38,6 @@ test('should enable scheduling for class with initialDelay', async() => {
   expect(foo.timesExecuted).toBe(0);
   await pause(1100);
   expect(foo.timesExecuted).toBe(0);
-  await pause(1500);
+  await pause(2000);
   expect(foo.timesExecuted).toBe(1);
 });
