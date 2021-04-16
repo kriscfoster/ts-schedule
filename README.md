@@ -8,7 +8,7 @@ Allows scheduling functionality in TypeScript using decorators.
 
 `npm install ts-schedule`
 
-```
+```ts
 @enableScheduling()
 class Foo {
   @scheduled(1000) // bar1 will run every 1000ms
